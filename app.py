@@ -3,6 +3,10 @@ import pandas as pd
 import pickle
 import numpy as np
 
+
+def cap_outliers(df):
+    return df
+
 # Page Configuration
 st.set_page_config(
     page_title="HepaScan | Liver Clinical Decision Support",
