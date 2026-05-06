@@ -3,117 +3,173 @@ import pandas as pd
 import pickle
 import numpy as np
 
-
+# --- CUSTOM FUNCTIONS FOR MODEL LOADING ---
 def cap_outliers(df):
     return df
 
 # Page Configuration
 st.set_page_config(
-    page_title="HepaScan | Liver Clinical Decision Support",
+    page_title="HepaScan | Liver Diagnostic System",
     page_icon="⚕️",
     layout="wide"
 )
 
-# --- PROFESSIONAL MEDICAL THEME (CSS) ---
+# --- RED, BLACK & BLUE MEDICAL THEME (CSS) ---
 st.markdown("""
     <style>
-    .main {
-        background-color: #f8f9fa;
+    .main { background-color: #0e1117; }
+    h1 {
+        color: #ff4b4b; 
+        font-family: 'Segoe UI', sans-serif;
+        font-weight: 800;
+        text-align: center;
+        border-bottom: 3px solid #1f77b4;
+        padding-bottom: 10px;
+    }
+    h3, .stSubheader { color: #1f77b4 !important; font-weight: bold; }
+    label p {
+        color: #ff4b4b !important; 
+        font-size: 1.1rem !important;
+        font-weight: bold !important;
+    }
+    div[data-testid="stVerticalBlock"] > div:has(div.stNumberInput) {
+        background-color: #1a1c23;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(255, 75, 75, 0.2);
+        border: 1px solid #333;
     }
     .stButton>button {
         width: 100%;
-        border-radius: 5px;
-        height: 3em;
-        background-color: #004a99;
+        border-radius: 10px;
+        height: 3.5em;
+        background: linear-gradient(135deg, #1f77b4 0%, #ff4b4b 100%);
         color: white;
         font-weight: bold;
         border: none;
+        font-size: 1.2rem;
     }
-    .stButton>button:hover {
-        background-color: #003366;
-        color: white;
-    }
-    .reportview-container .main .block-container {
-        padding-top: 2rem;
-    }
-    h1 {
-        color: #004a99;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
-    .medical-card {
-        padding: 20px;
-        border-radius: 10px;
-        background-color: #ffffff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+    .footer-credits {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        text-align: right;
+        font-family: 'Courier New', monospace;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 15px;
+        border-radius: 8px;
+        border: 2px solid #ff4b4b;
+        font-size: 13px;
+        color: #ffffff;
+        z-index: 100;
+        line-height: 1.6;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 1. Model Loading with Error Handling
+# 1. Model Loading
 @st.cache_resource
 def load_model():
     try:
         return pickle.load(open('liver_model.pkl', 'rb'))
-    except FileNotFoundError:
-        st.error("Diagnostic Model File ('liver_model.pkl') not found. Please contact administrator.")
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
         return None
 
 model = load_model()
 
-# Header Section
-st.title("⚕️ HepaScan: Advanced Liver Diagnostic System")
-st.markdown("---")
-st.info("Clinical Decision Support System (CDSS) for Healthcare Professionals. Please enter validated lab results below.")
+# Header
+st.title("⚕️ HepaScan: Liver Diagnostic Framework")
+st.info("💡 **Clinical Note:** This system uses Advanced Machine Learning for hepatic analysis. Descriptive labels under each variable explain their clinical significance.")
 
-# 2. Structured Input Form
+# 2. Input Form with Descriptions
 with st.container():
-    st.subheader("📋 Patient Clinical Markers")
+    st.subheader("📋 Diagnostic Variables")
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        age = st.number_input("Age (Years)", min_value=1, max_value=110, value=30, help="Patient's biological age.")
-        bilirubin = st.number_input("Total Bilirubin (mg/dL)", value=1.0, step=0.1, format="%.1f")
+        age = st.number_input("Age (Years)", min_value=1, max_value=110, value=30)
+        st.caption("Patient's biological age.")
+        
+        gender = st.selectbox("Gender", options=["Male", "Female"])
+        st.caption("Biological sex (impacts enzyme baseline).")
+        
+        bilirubin = st.number_input("Total Bilirubin (mg/dL)", value=1.0, step=0.1)
+        st.caption("Measures jaundice or bile duct blockage.")
         
     with col2:
-        sgot = st.number_input("SGOT / AST (U/L)", value=40.0, step=1.0)
+        direct_bilirubin = st.number_input("Direct Bilirubin (mg/dL)", value=0.3, step=0.1)
+        st.caption("Portion of bilirubin processed by liver.")
+        
         alk_phos = st.number_input("Alkaline Phosphatase (U/L)", value=100.0, step=1.0)
+        st.caption("High levels indicate bile duct or bone issues.")
+        
+        sgpt = st.number_input("SGPT / ALT (U/L)", value=35.0, step=1.0)
+        st.caption("Primary indicator of liver cell damage.")
 
     with col3:
-        albumin = st.number_input("Albumin (g/dL)", value=3.5, step=0.1, format="%.1f")
-        prothrombin = st.number_input("Prothrombin Time (Seconds)", value=12.0, step=0.1)
+        sgot = st.number_input("SGOT / AST (U/L)", value=40.0, step=1.0)
+        st.caption("Enzyme indicating liver or heart muscle damage.")
+        
+        total_proteins = st.number_input("Total Proteins (g/dL)", value=6.8, step=0.1)
+        st.caption("Sum of all proteins (Albumin + Globulin).")
+        
+        albumin = st.number_input("Albumin (g/dL)", value=3.5, step=0.1)
+        st.caption("Main protein made by liver; reflects nutrition.")
 
-st.markdown("---")
+# Secondary Row
+c1, c2, c3 = st.columns(3)
+with c1:
+    globulin = st.number_input("Globulin (g/dL)", value=3.0, step=0.1)
+    st.caption("Proteins that help fight infection.")
+with c2:
+    ag_ratio = st.number_input("A/G Ratio", value=1.1, step=0.1)
+    st.caption("Ratio of Albumin to Globulin (Liver/Kidney health).")
 
-# 3. Prediction & Clinical Interpretation
-if st.button("GENERATE DIAGNOSTIC REPORT"):
+st.markdown("<br>", unsafe_allow_html=True)
+
+# 3. Prediction Logic
+if st.button("RUN DIAGNOSTIC ANALYSIS"):
     if model:
-        # Data preparation
-        input_data = pd.DataFrame([[age, bilirubin, albumin, sgot, alk_phos, prothrombin]],
-                                columns=['Age', 'Bilirubin', 'Albumin', 'SGOT', 'Alk_Phosphate', 'Prothrombin'])
-        
-        # Inference
-        prediction = model.predict(input_data)
-        probability = model.predict_proba(input_data)[0][1] if hasattr(model, "predict_proba") else None
-
-        st.subheader("📑 Diagnostic Summary")
-        
-        res_col1, res_col2 = st.columns([2, 1])
-
-        with res_col1:
-            if prediction[0] == 1:
-                st.error("### Result: High Probability of Hepatic Pathology")
-                st.write("**Interpretation:** The clinical markers provided align with profiles commonly associated with chronic liver conditions. Immediate clinical correlation and specialist consultation are advised.")
-            else:
-                st.success("### Result: Low Risk / Healthy Profile")
-                st.write("**Interpretation:** The input markers fall within statistically normal ranges. No immediate hepatic abnormalities detected by the system.")
-
-        with res_col2:
-            if probability is not None:
-                st.metric(label="Risk Probability", value=f"{round(probability * 100, 2)}%")
+        try:
+            gender_encoded = 1 if gender == "Male" else 0
             
-        # Medical Disclaimer
-        st.warning("**Disclaimer:** This tool is for informational purposes only and does not replace professional medical judgment. All automated findings must be verified by a licensed medical practitioner.")
-    
+            data_dict = {
+                'Age': [age], 'Gender': [gender_encoded], 'Total_Bilirubin': [bilirubin],
+                'Direct_Bilirubin': [direct_bilirubin], 'Alkaline_Phosphotase': [alk_phos],
+                'SGPT_ALT': [sgpt], 'SGOT_AST': [sgot], 'Total_Protiens': [total_proteins],
+                'Albumin': [albumin], 'Globulin': [globulin], 'A/G_Ratio': [ag_ratio]
+            }
+            
+            input_data = pd.DataFrame(data_dict)
+            prediction = model.predict(input_data)
+            probability = model.predict_proba(input_data)[0][1] if hasattr(model, "predict_proba") else None
+
+            st.markdown("---")
+            st.subheader("📑 Final Assessment Report")
+            
+            res_col1, res_col2 = st.columns([2, 1])
+
+            with res_col1:
+                if prediction[0] == 1:
+                    st.error("### ⚠️ Result: Pathological Risk Detected")
+                    st.write("**Assessment:** Clinical profile indicates high risk. Consultation at J.N. Medical College (A.M.U) is advised.")
+                else:
+                    st.success("### ✅ Result: Normal Physiological Profile")
+                    st.write("**Assessment:** Parameters are within standard limits.")
+
+            with res_col2:
+                if probability is not None:
+                    st.metric(label="Risk Percentage", value=f"{round(probability * 100, 2)}%")
+            
+        except Exception as e:
+            st.error(f"Computation Error: {e}")
+
 # Footer
-st.markdown("<br><hr><center><small>HepaScan CDSS v1.0 | Developed for Clinical Research</small></center>", unsafe_allow_html=True)
+st.markdown(f"""
+    <div class="footer-credits">
+        <span style="color:#ff4b4b;"><strong>Name:</strong></span> Aarish Ali (GQ2864)<br>
+        <span style="color:#1f77b4;"><strong>Project:</strong></span> HepaScan: Liver Disease XAI<br>
+        <span style="color:#ff4b4b;"><strong>Dept:</strong></span> Dept. of Statistics & Operations Research, A.M.U
+    </div>
+    """, unsafe_allow_html=True)
