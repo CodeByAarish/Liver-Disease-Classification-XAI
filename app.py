@@ -3,9 +3,21 @@ import pandas as pd
 import pickle
 import numpy as np
 
-# --- CUSTOM FUNCTIONS FOR MODEL LOADING ---
+# --- 1. MODEL LOADING & PRE-PROCESSING ---
 def cap_outliers(df):
     return df
+
+@st.cache_resource
+def load_model():
+    try:
+        # Binary mode mein properly open karke load kar rahe hain
+        with open('liver_model.pkl', 'rb') as f:
+            return pickle.load(f)
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
+
+model = load_model()
 
 # Page Configuration
 st.set_page_config(
@@ -67,22 +79,11 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 1. Model Loading
-@st.cache_resource
-def load_model():
-    try:
-        return pickle.load(open('liver_model.pkl', 'rb'))
-    except Exception as e:
-        st.error(f"Error loading model: {e}")
-        return None
-
-model = load_model()
-
 # Header
 st.title("⚕️ HepaScan: Liver Diagnostic Framework")
-st.info("💡 **Clinical Note:** This system uses Advanced Machine Learning for hepatic analysis. Labels explain clinical significance.")
+st.info("💡 **A.M.U Research:** Enter patient clinical values below for AI-based hepatic analysis.")
 
-# 2. Input Form
+# --- 2. INPUT FORM ---
 with st.container():
     st.subheader("📋 Diagnostic Variables")
     col1, col2, col3 = st.columns(3)
@@ -128,15 +129,14 @@ with c2:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# 3. Prediction Logic
+# --- 3. PREDICTION LOGIC ---
 if st.button("RUN DIAGNOSTIC ANALYSIS"):
     if model:
         try:
-            # FIX: Gender encoded ko hata kar direct string bhej rahe hain 
-            # kyunki aapka pipeline 'Male'/'Female' expect kar raha hai.
+            # DHAYAN DEIN: Columns ka order aur spelling wahi honi chahiye jo training mein thi
             data_dict = {
                 'Age': [age], 
-                'Gender': [gender], # 'Male' or 'Female' string
+                'Gender': [gender], 
                 'Total_Bilirubin': [bilirubin],
                 'Direct_Bilirubin': [direct_bilirubin], 
                 'Alkaline_Phosphotase': [alk_phos],
@@ -148,13 +148,14 @@ if st.button("RUN DIAGNOSTIC ANALYSIS"):
                 'A/G_Ratio': [ag_ratio]
             }
             
-            input_data = pd.DataFrame(data_dict)
+            input_df = pd.DataFrame(data_dict)
             
-            # Apply outlier capping if it was part of training
-            input_data = cap_outliers(input_data)
+            # Apply pre-processing
+            input_df = cap_outliers(input_df)
 
-            prediction = model.predict(input_data)
-            probability = model.predict_proba(input_data)[0][1] if hasattr(model, "predict_proba") else None
+            # Prediction
+            prediction = model.predict(input_df)
+            probability = model.predict_proba(input_df)[0][1] if hasattr(model, "predict_proba") else None
 
             st.markdown("---")
             st.subheader("📑 Final Assessment Report")
@@ -175,6 +176,7 @@ if st.button("RUN DIAGNOSTIC ANALYSIS"):
             
         except Exception as e:
             st.error(f"Computation Error: {e}")
+            st.info("Check if Column names in your Jupyter Notebook match the ones in 'data_dict' above.")
 
 # Footer
 st.markdown(f"""
