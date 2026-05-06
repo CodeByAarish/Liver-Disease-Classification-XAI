@@ -1,0 +1,22 @@
+# Core Data Science & Visualization
+pandas
+numpy
+matplotlib
+seaborn
+tqdm
+
+# Machine Learning (Scikit-Learn & Boosting)
+scikit-learn
+xgboost
+lightgbm
+catboost
+
+# Imbalanced Data Handling
+imbalanced-learn
+
+# Deep Learning & Keras Wrappers
+tensorflow
+scikeras
+
+# Deployment
+streamlit
