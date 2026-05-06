@@ -80,9 +80,9 @@ model = load_model()
 
 # Header
 st.title("⚕️ HepaScan: Liver Diagnostic Framework")
-st.info("💡 **Clinical Note:** This system uses Advanced Machine Learning for hepatic analysis. Descriptive labels under each variable explain their clinical significance.")
+st.info("💡 **Clinical Note:** This system uses Advanced Machine Learning for hepatic analysis. Labels explain clinical significance.")
 
-# 2. Input Form with Descriptions
+# 2. Input Form
 with st.container():
     st.subheader("📋 Diagnostic Variables")
     col1, col2, col3 = st.columns(3)
@@ -92,7 +92,7 @@ with st.container():
         st.caption("Patient's biological age.")
         
         gender = st.selectbox("Gender", options=["Male", "Female"])
-        st.caption("Biological sex (impacts enzyme baseline).")
+        st.caption("Biological sex.")
         
         bilirubin = st.number_input("Total Bilirubin (mg/dL)", value=1.0, step=0.1)
         st.caption("Measures jaundice or bile duct blockage.")
@@ -102,20 +102,20 @@ with st.container():
         st.caption("Portion of bilirubin processed by liver.")
         
         alk_phos = st.number_input("Alkaline Phosphatase (U/L)", value=100.0, step=1.0)
-        st.caption("High levels indicate bile duct or bone issues.")
+        st.caption("High levels indicate bile duct issues.")
         
         sgpt = st.number_input("SGPT / ALT (U/L)", value=35.0, step=1.0)
         st.caption("Primary indicator of liver cell damage.")
 
     with col3:
         sgot = st.number_input("SGOT / AST (U/L)", value=40.0, step=1.0)
-        st.caption("Enzyme indicating liver or heart muscle damage.")
+        st.caption("Enzyme indicating liver damage.")
         
         total_proteins = st.number_input("Total Proteins (g/dL)", value=6.8, step=0.1)
-        st.caption("Sum of all proteins (Albumin + Globulin).")
+        st.caption("Sum of all proteins in blood.")
         
         albumin = st.number_input("Albumin (g/dL)", value=3.5, step=0.1)
-        st.caption("Main protein made by liver; reflects nutrition.")
+        st.caption("Main protein made by liver.")
 
 # Secondary Row
 c1, c2, c3 = st.columns(3)
@@ -124,7 +124,7 @@ with c1:
     st.caption("Proteins that help fight infection.")
 with c2:
     ag_ratio = st.number_input("A/G Ratio", value=1.1, step=0.1)
-    st.caption("Ratio of Albumin to Globulin (Liver/Kidney health).")
+    st.caption("Ratio of Albumin to Globulin.")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -132,16 +132,27 @@ st.markdown("<br>", unsafe_allow_html=True)
 if st.button("RUN DIAGNOSTIC ANALYSIS"):
     if model:
         try:
-            gender_encoded = 1 if gender == "Male" else 0
-            
+            # FIX: Gender encoded ko hata kar direct string bhej rahe hain 
+            # kyunki aapka pipeline 'Male'/'Female' expect kar raha hai.
             data_dict = {
-                'Age': [age], 'Gender': [gender_encoded], 'Total_Bilirubin': [bilirubin],
-                'Direct_Bilirubin': [direct_bilirubin], 'Alkaline_Phosphotase': [alk_phos],
-                'SGPT_ALT': [sgpt], 'SGOT_AST': [sgot], 'Total_Protiens': [total_proteins],
-                'Albumin': [albumin], 'Globulin': [globulin], 'A/G_Ratio': [ag_ratio]
+                'Age': [age], 
+                'Gender': [gender], # 'Male' or 'Female' string
+                'Total_Bilirubin': [bilirubin],
+                'Direct_Bilirubin': [direct_bilirubin], 
+                'Alkaline_Phosphotase': [alk_phos],
+                'SGPT_ALT': [sgpt], 
+                'SGOT_AST': [sgot], 
+                'Total_Protiens': [total_proteins],
+                'Albumin': [albumin], 
+                'Globulin': [globulin], 
+                'A/G_Ratio': [ag_ratio]
             }
             
             input_data = pd.DataFrame(data_dict)
+            
+            # Apply outlier capping if it was part of training
+            input_data = cap_outliers(input_data)
+
             prediction = model.predict(input_data)
             probability = model.predict_proba(input_data)[0][1] if hasattr(model, "predict_proba") else None
 
