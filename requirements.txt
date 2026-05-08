@@ -1,6 +1,7 @@
 # Core Data Science & Visualization
 pandas
 numpy
+shap
 matplotlib
 seaborn
 tqdm
