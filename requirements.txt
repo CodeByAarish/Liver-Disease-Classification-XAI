@@ -8,7 +8,7 @@ tqdm
 # Machine Learning (Scikit-Learn & Boosting)
 scikit-learn
 xgboost
-lightgbm
+lightgbm==4.6.0
 catboost
 
 # Imbalanced Data Handling
