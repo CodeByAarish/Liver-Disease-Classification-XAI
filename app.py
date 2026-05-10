@@ -182,6 +182,44 @@ label {
     margin: 20px 0;
 }
 
+/* ========================= */
+/* METRIC CARD STYLING */
+/* ========================= */
+
+[data-testid="stMetric"] {
+    background-color: #000000 !important;
+    border: 2px solid #ef4444 !important;
+    padding: 20px !important;
+    border-radius: 18px !important;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4) !important;
+}
+
+/* METRIC LABEL */
+
+[data-testid="stMetricLabel"] {
+    color: white !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+/* METRIC VALUE */
+
+[data-testid="stMetricValue"] {
+    color: white !important;
+    font-size: 42px !important;
+    font-weight: 800 !important;
+    text-shadow: 0 0 12px rgba(239,68,68,0.4);
+}
+
+/* RISK IDENTIFIED */
+
+[data-testid="stMetricDelta"] {
+    color: #ff0000 !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    text-shadow: 0 0 10px rgba(255,0,0,0.8);
+}
+
 /* FOOTER */
 
 .footer-credits {
@@ -371,7 +409,7 @@ if st.button("🚀 EXECUTE NEURAL DIAGNOSIS"):
                     st.write("- Impaired bile excretion or excessive RBC breakdown detected (Biliary Obstruction risk).")
                 
                 st.markdown("#### 💊 Actionable Prescription")
-                st.write("- **Medical Intervention:** Immediate consultation with a **Hepatologist** at JNMC/AMU.")
+                st.write("- **Medical Intervention:** Immediate consultation with a **Hepatologist** at JN Medical College, A.M.U")
                 st.write("- **Diagnostic Recommendation:** Serum Viral Markers (HBsAg, HCV) and an Abdominal Ultrasound (USG).")
                 st.write("- **Lifestyle Protocol:** Absolute cessation of alcohol. Limit sodium to <2000mg/day. Increase antioxidant intake.")
                 st.write("- **Emergency Symptoms:** Seek help if you experience jaundice, confusion (encephalopathy), or dark-colored urine.")
@@ -385,7 +423,7 @@ if st.button("🚀 EXECUTE NEURAL DIAGNOSIS"):
 # --- FOOTER ---
 st.markdown(f"""
     <div class="footer-credits">
-        <strong style="color:white;">Aarish Ali</strong> (GQ2864) <24DSMSA113><br>
+        <strong style="color:white;">Aarish Ali</strong> (GQ2864)<br>
         Lead AI Researcher | <b>HepaScan Framework</b><br>
         <span style="font-size:11px;">Dept. of Statistics & Operations Research<br>Aligarh Muslim University (A.M.U)</span>
     </div>
