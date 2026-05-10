@@ -226,4 +226,19 @@ if st.button("🚀 INITIATE NEURAL SCAN"):
                 st.write("- Schedule a FibroScan or Liver Biopsy as per clinical advice.")
                 st.write("- Consult Dr. [Hepatology Specialist] at JN Medical College, Aligarh.")
             else:
-                st.success("**
+                st.success("**Physiological Stability Confirmed**")
+                st.write(f"Even though **{top_feature}** is your highest variation, it is currently within a safe compensation range.")
+                st.write("- Maintain current lifestyle. Repeat LFT every 6 months for monitoring.")
+
+            st.markdown('</div>', unsafe_allow_html=True)
+
+        except Exception as e: st.error(f"Computation Error: {e}")
+
+# --- FOOTER ---
+st.markdown(f"""
+    <div class="footer-credits">
+        <strong style="color:white;">Aarish Ali</strong> (GQ2864) <24DSMSA113><br>
+        Lead AI Researcher | <b>HepaScan Framework</b><br>
+        <span style="font-size:11px;">Dept. of Statistics & Operations Research<br>Aligarh Muslim University (A.M.U)</span>
+    </div>
+    """, unsafe_allow_html=True)
