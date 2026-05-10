@@ -23,6 +23,14 @@ def load_diagnostic_model():
 # --- 2. GLOBAL UI CONFIGURATION ---
 st.set_page_config(page_title="HepaScan | Diagnostic Suite", page_icon="⚕️", layout="wide")
 
+# --- SIMPLE RATING SECTION (SIDEBAR) ---
+with st.sidebar:
+    st.markdown("### ⭐ Rate HepaScan AI")
+    rating = st.feedback("stars")
+    if rating is not None:
+        st.toast(f"Thankyou! for {rating + 1} stars ratings 😊.", icon="💖")
+
+
 st.markdown("""
 <style>
 
