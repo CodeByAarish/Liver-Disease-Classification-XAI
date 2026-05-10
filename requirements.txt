@@ -16,7 +16,7 @@ catboost
 imbalanced-learn
 
 # Deep Learning & Keras Wrappers
-tensorflow
+
 scikeras
 
 # Deployment
