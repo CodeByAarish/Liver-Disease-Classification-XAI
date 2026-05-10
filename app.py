@@ -14,6 +14,8 @@ import plotly.express as px
 # =========================================================
 # 1. MODEL LOADER
 # =========================================================
+def cap_outliers(df):
+    return df
 
 @st.cache_resource
 def load_diagnostic_model():
