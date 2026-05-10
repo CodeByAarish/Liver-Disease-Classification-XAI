@@ -28,11 +28,15 @@ st.markdown("""
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+/* MAIN */
+
 .main {
     background-color: #0b0e14;
     font-family: 'Inter', sans-serif;
     color: white;
 }
+
+/* TITLE */
 
 .main-title {
     color: #ffffff;
@@ -57,6 +61,7 @@ st.markdown("""
     border-radius: 15px;
     border: 1px solid #30363d;
     margin-bottom: 20px;
+    transition: all 0.3s ease;
 }
 
 .variable-card:hover {
@@ -84,53 +89,68 @@ st.markdown("""
     transform: scale(1.02);
 }
 
-/* INPUT BOXES */
+/* ========================= */
+/* ALL INPUT BOXES STYLING */
+/* ========================= */
 
-.stNumberInput > div > div > input {
-    background-color: #161b22 !important;
-    color: white !important;
-    border: 2px solid #30363d !important;
-    border-radius: 12px !important;
-    padding: 10px !important;
-    transition: all 0.3s ease !important;
-}
-
-/* INPUT HOVER */
-
-.stNumberInput > div > div > input:hover {
-    border-color: #ef4444 !important;
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
-}
-
-/* INPUT FOCUS */
-
-.stNumberInput > div > div > input:focus {
-    border-color: #ef4444 !important;
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8) !important;
-}
-
-/* SELECTBOX */
-
+.stNumberInput input,
+.stTextInput input,
+.stTextArea textarea,
+.stDateInput input,
+.stTimeInput input,
 .stSelectbox div[data-baseweb="select"] > div {
+
     background-color: #161b22 !important;
-    border: 2px solid #30363d !important;
-    border-radius: 12px !important;
     color: white !important;
+
+    border: 2px solid #30363d !important;
+    border-radius: 14px !important;
+
     transition: all 0.3s ease !important;
+
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.15) !important;
 }
 
-/* SELECTBOX HOVER */
+/* HOVER EFFECT */
 
+.stNumberInput input:hover,
+.stTextInput input:hover,
+.stTextArea textarea:hover,
+.stDateInput input:hover,
+.stTimeInput input:hover,
 .stSelectbox div[data-baseweb="select"] > div:hover {
+
     border-color: #ef4444 !important;
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
+
+    box-shadow:
+        0 0 10px rgba(239, 68, 68, 0.4),
+        0 0 20px rgba(239, 68, 68, 0.25) !important;
+
+    transform: translateY(-2px);
+}
+
+/* FOCUS EFFECT */
+
+.stNumberInput input:focus,
+.stTextInput input:focus,
+.stTextArea textarea:focus,
+.stDateInput input:focus,
+.stTimeInput input:focus {
+
+    border-color: #ef4444 !important;
+
+    box-shadow:
+        0 0 12px rgba(239, 68, 68, 0.6),
+        0 0 30px rgba(239, 68, 68, 0.35) !important;
+
+    transform: scale(1.01);
 }
 
 /* LABELS */
 
 label {
     color: white !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
 }
 
 /* RANGE BOX */
@@ -143,7 +163,7 @@ label {
     display: block;
 }
 
-/* DESCRIPTION BOX */
+/* DESCRIPTION */
 
 .desc-box {
     color: #94a3b8;
