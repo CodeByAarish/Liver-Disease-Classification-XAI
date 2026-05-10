@@ -261,7 +261,7 @@ with st.container():
         with c2:
             
             bilirubin = st.number_input("Total Bilirubin (mg/dL)", value=1.0)
-            st.markdown('<span class="desc-box">Waste product from RBC breakdown. High levels indicate Jaundice or Liver obstruction.</span><span class="range-box">Normal: 0.1–1.2</span>', unsafe_allow_html=True)
+            st.markdown('<span class="desc-box">Waste product from RBC breakdown. High levels indicate Jaundice or Liver obstruction.</span><span class="range-box">Normal: 0.1–1.2 mg/dL</span>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
     with t2:
