@@ -269,29 +269,29 @@ with st.container():
         with col1:
            
             dbilirubin = st.number_input("Direct Bilirubin (mg/dL)", value=0.3)
-            st.markdown('<span class="desc-box">Conjugated bile. High levels suggest bile duct blockage.</span><span class="range-box">Normal: 0.0–0.3</span>', unsafe_allow_html=True)
+            st.markdown('<span class="desc-box">Conjugated bile. High levels suggest bile duct blockage.</span><span class="range-box">Normal: 0.0–0.3 mg/dL</span>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
             
             alk_phos = st.number_input("Alkaline Phosphatase (U/L)", value=100.0)
-            st.markdown('<span class="desc-box">Bile duct enzyme. Elevated in cholestasis or bone growth.</span><span class="range-box">Normal: 44–147</span>', unsafe_allow_html=True)
+            st.markdown('<span class="desc-box">Bile duct enzyme. Elevated in cholestasis or bone growth.</span><span class="range-box">Normal: 44–147 U/L</span>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
         with col2:
             
             sgpt = st.number_input("SGPT / ALT (U/L)", value=35.0)
-            st.markdown('<span class="desc-box">Most specific liver enzyme. High levels mean liver cell damage.</span><span class="range-box">Normal: 7–56</span>', unsafe_allow_html=True)
+            st.markdown('<span class="desc-box">Most specific liver enzyme. High levels mean liver cell damage.</span><span class="range-box">Normal: 7–56 U/L</span>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
             
             sgot = st.number_input("SGOT / AST (U/L)", value=40.0)
-            st.markdown('<span class="desc-box">Released during tissue damage. Used to detect inflammation.</span><span class="range-box">Normal: 10–40</span>', unsafe_allow_html=True)
+            st.markdown('<span class="desc-box">Released during tissue damage. Used to detect inflammation.</span><span class="range-box">Normal: 10–40 U/L</span>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
         with col3:
             
             total_proteins = st.number_input("Total Protein (g/dL)", value=6.8)
-            st.markdown('<span class="desc-box">Measures Albumin and Globulin. High indicates infection.</span><span class="range-box">Normal: 6.0–8.3</span>', unsafe_allow_html=True)
+            st.markdown('<span class="desc-box">Measures Albumin and Globulin. High indicates infection.</span><span class="range-box">Normal: 6.0–8.3 g/dL</span>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
             
             albumin = st.number_input("Albumin (g/dL)", value=3.5)
-            st.markdown('<span class="desc-box">Main protein produced by liver. Low indicates chronic disease.</span><span class="range-box">Normal: 3.4–5.4</span>', unsafe_allow_html=True)
+            st.markdown('<span class="desc-box">Main protein produced by liver. Low indicates chronic disease.</span><span class="range-box">Normal: 3.4–5.4 g/dL</span>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
 # Calculated Variable
