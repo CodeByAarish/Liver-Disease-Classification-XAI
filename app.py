@@ -30,25 +30,6 @@ with st.sidebar:
     if rating is not None:
         st.toast(f"Thankyou! for {rating + 1} stars ratings 😊.", icon="💖")
 
-    if rating is not None:
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-        with open("ratings_history.txt", "a") as f:
-            f.write(f"{timestamp} | Rating: {rating + 1}/5\n")
-        st.toast("Feedback Saved!", icon="✅")
-
-    # 2. SHOW HISTORY LOGIC
-    st.markdown("---")
-    st.markdown("#### 📜 Recent Ratings History")
-    
-    if os.path.exists("ratings_history.txt"):
-        with open("ratings_history.txt", "r") as f:
-            # Sirf aakhri 5 ratings dikhane ke liye
-            history = f.readlines()
-            for line in history[-5:]: # Last 5 entries
-                st.caption(line.strip())
-    else:
-        st.info("No history yet.")
-
 
 st.markdown("""
 <style>
