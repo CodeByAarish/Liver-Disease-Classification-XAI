@@ -24,36 +24,164 @@ def load_diagnostic_model():
 st.set_page_config(page_title="HepaScan | Diagnostic Suite", page_icon="⚕️", layout="wide")
 
 st.markdown("""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-    .main { background-color: #0b0e14; font-family: 'Inter', sans-serif; color: white; }
-    .main-title { color: #ffffff; font-size: 3.5rem; font-weight: 800; text-align: center; text-shadow: 0 0 20px rgba(239, 68, 68, 0.5); animation: pulse 3s infinite; }
-    @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+<style>
 
-    /* Variable Card Styling - PURE CSS TRANSITIONS */
-    .variable-card {
-        background: #161b22; padding: 20px; border-radius: 15px; border: 1px solid #30363d;
-        margin-bottom: 20px;
-    }
-    .variable-card:hover { transform: translateY(-8px); border-color: #ef4444; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.25); }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
-    .stButton>button {
-        width: 100%; border-radius: 12px; height: 5em; background: linear-gradient(90deg, #b91c1c 0%, #ef4444 100%);
-        color: white; font-weight: 800; border: none; transition: all 0.4s ease; box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
-    }
-    .stButton>button:hover { box-shadow: 0 0 40px rgba(239, 68, 68, 1); transform: scale(1.02); }
+.main {
+    background-color: #0b0e14;
+    font-family: 'Inter', sans-serif;
+    color: white;
+}
 
-    .range-box { color: #10b981; font-size: 0.9rem; font-weight: 700; margin-top: 5px; display: block;}
-    .desc-box { color: #94a3b8; font-size: 0.85rem; line-height: 1.4; margin-top: 5px;}
-    .med-card { background: #1c2128; padding: 30px; border-radius: 20px; border-left: 10px solid #ef4444; margin: 20px 0; }
-    
-    .footer-credits {
-        position: fixed; right: 20px; bottom: 20px; text-align: right; background: rgba(22, 27, 34, 0.9);
-        padding: 15px 25px; border-radius: 15px; border: 1px solid #ef4444; font-size: 13px; color: #8b949e;
-        z-index: 1000; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-    </style>
-    """, unsafe_allow_html=True)
+.main-title {
+    color: #ffffff;
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-align: center;
+    text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+    animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+/* VARIABLE CARD */
+
+.variable-card {
+    background: #161b22;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #30363d;
+    margin-bottom: 20px;
+}
+
+.variable-card:hover {
+    transform: translateY(-8px);
+    border-color: #ef4444;
+    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.25);
+}
+
+/* BUTTON */
+
+.stButton > button {
+    width: 100%;
+    border-radius: 12px;
+    height: 5em;
+    background: linear-gradient(90deg, #b91c1c 0%, #ef4444 100%);
+    color: white;
+    font-weight: 800;
+    border: none;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+.stButton > button:hover {
+    box-shadow: 0 0 40px rgba(239, 68, 68, 1);
+    transform: scale(1.02);
+}
+
+/* INPUT BOXES */
+
+.stNumberInput > div > div > input {
+    background-color: #161b22 !important;
+    color: white !important;
+    border: 2px solid #30363d !important;
+    border-radius: 12px !important;
+    padding: 10px !important;
+    transition: all 0.3s ease !important;
+}
+
+/* INPUT HOVER */
+
+.stNumberInput > div > div > input:hover {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
+}
+
+/* INPUT FOCUS */
+
+.stNumberInput > div > div > input:focus {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8) !important;
+}
+
+/* SELECTBOX */
+
+.stSelectbox div[data-baseweb="select"] > div {
+    background-color: #161b22 !important;
+    border: 2px solid #30363d !important;
+    border-radius: 12px !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+}
+
+/* SELECTBOX HOVER */
+
+.stSelectbox div[data-baseweb="select"] > div:hover {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
+}
+
+/* LABELS */
+
+label {
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+/* RANGE BOX */
+
+.range-box {
+    color: #10b981;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-top: 5px;
+    display: block;
+}
+
+/* DESCRIPTION BOX */
+
+.desc-box {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-top: 5px;
+}
+
+/* MEDICAL CARD */
+
+.med-card {
+    background: #1c2128;
+    padding: 30px;
+    border-radius: 20px;
+    border-left: 10px solid #ef4444;
+    margin: 20px 0;
+}
+
+/* FOOTER */
+
+.footer-credits {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    text-align: right;
+    background: rgba(22, 27, 34, 0.9);
+    padding: 15px 25px;
+    border-radius: 15px;
+    border: 1px solid #ef4444;
+    font-size: 13px;
+    color: #8b949e;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 st.markdown('<p class="main-title">⚕️ HepaScan AI</p>', unsafe_allow_html=True)
 st.markdown('<p style="text-align:center; color:#94a3b8; font-size: 1.2rem;">Advanced Neural Diagnostic Framework for Hepatic Pathology</p>', unsafe_allow_html=True)
